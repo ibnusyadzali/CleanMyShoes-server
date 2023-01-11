@@ -12,10 +12,8 @@ class OrderControllers {
             
             res.status(201).json({ message: `Success create order with Order ID Number ${data.orderIdNumber}`})
         } catch (error) {
-            console.log(error)
             next(error)
         }
-
     }
 }
 
