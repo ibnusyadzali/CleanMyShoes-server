@@ -21,6 +21,17 @@ class OrderControllers {
             next(error)
         }
     }
+
+    static async fetchAllOrders(req, res,next) {
+        try {
+            const allData = await Order.findAll({include: [User,Service], order: [["id", "DESC"]]})
+            res.status(200).json(allData)
+        } catch (error) {
+            console.log(error)
+            next(error)
+        }
+    }
+
     static async fetchOrderDetail(req, res, next) {
         try {
             const orderId = req.params.orderId
