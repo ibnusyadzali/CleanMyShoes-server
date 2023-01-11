@@ -8,6 +8,6 @@ router.post('/', authentication,OrderControllers.createOrder)
 router.get('/', authentication, adminAuthorization,OrderControllers.fetchAllOrders)
 router.get('/myOrder', authentication, OrderControllers.fetchMyOrder)
 router.get('/:orderId', authentication, authorization,OrderControllers.fetchOrderDetail)
-// router.put('/:id', authentication, authorization,OrderControllers.updateOrderStatus)
+router.patch('/:orderId', authentication, adminAuthorization,OrderControllers.updateOrderData)
 
 module.exports = router
