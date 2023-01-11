@@ -111,9 +111,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Order',
   });
-  
-  Order.beforeCreate(el=> {
-    el.orderIdNumber = `#${UserId}${ServiceId}${Math.floor(Math.random() * 100)}`
-  })
   return Order;
 };

@@ -6,7 +6,7 @@ const router = require("./routers/index");
 const express = require("express");
 const app = express();
 const port = 3000;
-const { errorHandling } = require("./middleware/errorHandling");
+const errorHandling = require("./middleware/errorHandling");
 const cors = require("cors");
 
 app.use(cors());

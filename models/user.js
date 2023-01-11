@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init({
     username: {
-      typr: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     email: {
-      typr: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: {
         msg: 'Email already existed'
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     password: {
-      typr: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     role: {
-      typr: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     phoneNumber: {
-      typr: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -87,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     address: {
-      typr: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -105,9 +105,6 @@ module.exports = (sequelize, DataTypes) => {
 
   User.beforeCreate(el => {
     el.password = bcrypt.hashSync(el.password,10)
-    if (el.username.slice(0,6) === 'admin.') {
-      el.role = 'admin'
-    }
   })
   return User;
 };
