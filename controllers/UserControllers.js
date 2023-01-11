@@ -1,4 +1,6 @@
 const {User, Service, Order} = require('../models/index')
+const {comparePassword} = require('../helpers/bcrypt')
+const {createToken} = require('../helpers/jwt')
 
 class UserControllers {
 
@@ -17,7 +19,33 @@ class UserControllers {
           next(error);
         }
       }
-
+      static async login(req, res, next) {
+        try {
+          let { email, password } = req.body;
+    
+          if (!email || !password) {
+            throw { name: `Email or Password is required` };
+          }
+          let user = await User.findOne({ where: { email } });
+          if (!user) {
+            throw { name: `Data Not Found` };
+          }
+    
+          let compared = comparePassword(password, user.password);
+          if (!compared) {
+            throw { name: `Invalid Email/Password` };
+          }
+    
+          let payload = {
+            id: user.id,
+          };
+    
+          let access_token = createToken(payload);
+          res.status(200).json({ access_token, username: user.username, email: user.email, role: user.role });
+        } catch (error) {
+          next(error);
+        }
+      }
 }
 
 module.exports = UserControllers
