@@ -15,7 +15,6 @@ async function authorization(req, res, next) {
       }
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 }
@@ -30,7 +29,6 @@ async function adminAuthorization(req, res, next) {
         throw {name: 'Unauthorized'}
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 }

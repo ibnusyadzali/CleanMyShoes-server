@@ -27,7 +27,6 @@ class OrderControllers {
       const allData = await Order.findAll({ include: [User, Service], order: [["id", "DESC"]] });
       res.status(200).json(allData);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -38,7 +37,6 @@ class OrderControllers {
       const myOrder = await Order.findAll({ where: { UserId: userId }, include: [User, Service], order: [["id", "DESC"]] });
       res.status(200).json(myOrder);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -52,7 +50,6 @@ class OrderControllers {
       }
       res.status(200).json(data);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -88,7 +85,6 @@ class OrderControllers {
       }
       res.status(201).json({ message: "Success update order data" });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
