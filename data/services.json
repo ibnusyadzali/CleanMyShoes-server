@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Standard Cleaning",
+        "price": "35000",
+        "estimatedDay": 2,
+        "image": "../assets/standard cleaning.png"
+    },
+    {
+        "name": "Premium Cleaning",
+        "price": "45000",
+        "estimatedDay": 2,
+        "image": "../assets/premium cleaning.png"
+    },
+    {
+        "name": "Premium Suede",
+        "price": "65000",
+        "estimatedDay": 3,
+        "image": "../assets/istockphoto-629962200-612x612.jpeg"
+    },
+    {
+        "name": "Leather Shining",
+        "price": "65000",
+        "estimatedDay": 3,
+        "image": "../assets/istockphoto-1250208695-612x612.jpeg"
+    },
+    {
+        "name": "Unyellowing Midsole",
+        "price": "30000",
+        "estimatedDay": 2,
+        "image": "../assets/unyellow-4.jpeg"
+    },
+    {
+        "name": "Repainting",
+        "price": "60000",
+        "estimatedDay": 5,
+        "image": "../assets/repaint.jpeg"
+    }
+]
