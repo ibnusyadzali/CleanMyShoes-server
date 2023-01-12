@@ -8,10 +8,19 @@ async function authorization(req, res, next) {
       throw { name: `Data not found` };
     } else {
       let userId = req.user.id;
-      if (orderData.UserId === userId) {
-        next();
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw { name: `Data not found` };
       } else {
-        throw { name: `Unauthorized` };
+        if (user.role === "admin") {
+          next();
+        } else {
+          if (orderData.UserId === userId) {
+            next();
+          } else {
+            throw { name: `Unauthorized` };
+          }
+        }
       }
     }
   } catch (error) {
@@ -22,15 +31,15 @@ async function authorization(req, res, next) {
 async function adminAuthorization(req, res, next) {
   try {
     const id = req.user.id;
-    let user = await User.findByPk(id)
-    if (user.role === 'admin') {
-        next()
+    let user = await User.findByPk(id);
+    if (user.role === "admin") {
+      next();
     } else {
-        throw {name: 'Unauthorized'}
+      throw { name: "Unauthorized" };
     }
   } catch (error) {
     next(error);
   }
 }
 
-module.exports = {authorization , adminAuthorization};
+module.exports = { authorization, adminAuthorization };
