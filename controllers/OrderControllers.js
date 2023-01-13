@@ -3,10 +3,10 @@ const { User, Service, Order } = require("../models/index");
 class OrderControllers {
   static async createOrder(req, res, next) {
     let photo;
-    if (req.file === undefined){
-        photo = "https://res.cloudinary.com/dnh89xvo5/image/upload/v1673522693/Sorry..._there_s_no_image_yet_boppw0.png";
+    if (req.file === undefined) {
+      photo = "https://res.cloudinary.com/dnh89xvo5/image/upload/v1673522693/Sorry..._there_s_no_image_yet_boppw0.png";
     } else {
-        photo = req.file.path
+      photo = req.file.path;
     }
 
     try {
@@ -16,15 +16,11 @@ class OrderControllers {
 
       const noPicture = "https://res.cloudinary.com/dnh89xvo5/image/upload/v1673522693/Sorry..._there_s_no_image_yet_boppw0.png";
 
-    //   if (!photo) {
-    //     photo = noPicture;
-    //   }
       let photoAfter = noPicture;
       const data = await Order.create({ orderIdNumber, shoesBrand, shoesSize, shoesColor, shoesMaterial, phoneNumberPIC, photo, pickUpAddress, photoAfter, status: "On Request", ServiceId, UserId });
 
       res.status(201).json({ message: `Success create order with Order ID Number ${data.orderIdNumber}` });
     } catch (error) {
-        console.log(error,photo,'<<<<<< error di server')
       next(error);
     }
   }
@@ -61,14 +57,25 @@ class OrderControllers {
     }
   }
 
-  static async updateOrderData(req, res, next) {
-    let photoAfter
-    if (req.file === undefined) {
-        photoAfter = "https://res.cloudinary.com/dnh89xvo5/image/upload/v1673522693/Sorry..._there_s_no_image_yet_boppw0.png";
-    } else {
-        photoAfter = req.file.path
+  static async successPayment(req, res, next) {
+    try {
+      const orderId = req.params.orderId;
+      const { status } = req.body;
+      await Order.update({ status }, { where: { id: orderId } });
+      res.status(201).json({ message: "Payment Success" });
+    } catch (error) {
+      next(error);
     }
-    
+  }
+
+  static async updateOrderData(req, res, next) {
+    let photoAfter;
+    if (req.file === undefined) {
+      photoAfter = "https://res.cloudinary.com/dnh89xvo5/image/upload/v1673522693/Sorry..._there_s_no_image_yet_boppw0.png";
+    } else {
+      photoAfter = req.file.path;
+    }
+
     try {
       const orderId = req.params.orderId;
       let { status } = req.body;
@@ -82,8 +89,8 @@ class OrderControllers {
 
       let day = +serviceData.estimatedDay;
 
-      if (status === "Pick Up Process") {
-        await Order.update({ status}, { where: { id: orderId } });
+      if (status === "Pick Up Process" || status === "Waiting for Payment") {
+        await Order.update({ status }, { where: { id: orderId } });
       } else if (status === "Cleaning On Process") {
         let date = new Date();
         let estimatedDate = date.setDate(date.getDate() + day);

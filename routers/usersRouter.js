@@ -5,5 +5,6 @@ const router = express.Router()
 
 router.post('/register', UserControllers.register)
 router.post('/login', UserControllers.login)
+router.post('/login/google', UserControllers.googleLogin)
 
 module.exports = router

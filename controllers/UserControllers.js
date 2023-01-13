@@ -1,6 +1,7 @@
 const {User, Service, Order} = require('../models/index')
 const {comparePassword} = require('../helpers/bcrypt')
 const {createToken} = require('../helpers/jwt')
+const { OAuth2Client } = require("google-auth-library");
 
 class UserControllers {
 
@@ -41,6 +42,37 @@ class UserControllers {
           };
     
           let access_token = createToken(payload);
+          res.status(200).json({ access_token, username: user.username, email: user.email, role: user.role });
+        } catch (error) {
+          next(error);
+        }
+      }
+
+      static async googleLogin(req, res, next) {
+        try {
+          const gToken = req.headers.googletoken;
+          const client = new OAuth2Client(process.env.clientId);
+          const ticket = await client.verifyIdToken({
+            idToken: gToken,
+            audience: process.env.clientId,
+          });
+    
+          const payload = ticket.getPayload();
+    
+          const { email, name } = payload;
+          const [user, create] = await User.findOrCreate({
+            where: { email },
+            defaults: {
+              username: name,
+              email: email,
+              password: process.env.googlePass,
+              role: "customer",
+              address: "defaultByGoogle",
+              phoneNumber: "defaultByGoogle",
+            },
+            hooks: false,
+          });
+          let access_token = createToken({ id: user.id });
           res.status(200).json({ access_token, username: user.username, email: user.email, role: user.role });
         } catch (error) {
           next(error);

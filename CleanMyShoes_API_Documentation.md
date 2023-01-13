@@ -11,6 +11,8 @@ List of available endpoints:
 - `GET /orders/myOrder`
 - `GET /orders/:orderId`
 - `PATCH /orders/:orderId`
+- `POST /:orderId`
+- `POST /orders/payment`
 
 &nbsp;
 
@@ -450,6 +452,114 @@ _Response (200 - OK)_
 ```json
 {
   "message": "Success update order data"
+}
+```
+
+_Response (401 - Unauthorized )_
+
+```json
+{
+  "message": "Unauthenticated, please login first"
+}
+```
+
+_Response (403 - Forbidden )_
+
+```json
+{
+    "message": "Sorry, you have no authorization"
+}
+```
+
+## 8. POST /orders/:orderId
+
+Description:
+
+- payment midtrans
+
+Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+- params:
+
+```json
+{
+  "orderId": "integer (required)"
+}
+```
+
+- body:
+
+```json
+{
+  "status": "string"
+}
+```
+
+_Response (201 - OK)_
+
+```json
+{
+    "token": "string",
+    "redirect_url": "string"
+}
+```
+
+_Response (401 - Unauthorized )_
+
+```json
+{
+  "message": "Unauthenticated, please login first"
+}
+```
+
+_Response (403 - Forbidden )_
+
+```json
+## 8. POST /orders/:orderId
+
+Description:
+
+- update status after payment with midtrans
+
+Request:
+
+- headers:
+
+```json
+{
+  "status": "string"
+}
+```
+
+- params:
+
+```json
+{
+  "orderId": "integer (required)"
+}
+```
+
+- body:
+
+```json
+{
+  "status": "string"
+}
+```
+
+_Response (201 - Created)_
+
+```json
+{
+    "message": "Payment Success",
 }
 ```
 
