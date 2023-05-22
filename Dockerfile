@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install the app dependencies
 RUN npm install
+RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && chmod +x wait-for-it.sh
 
 # Copy the rest of the application code to the working directory
 COPY . .
@@ -17,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the web app
-CMD [ "npm", "start" ]
+ENTRYPOINT ["/bin/bash"]

@@ -3,11 +3,10 @@ const midtransClient = require('midtrans-client');
 
 class MidtransController {
   static async midtrans(req, res) {
-    console.log("hiiihii");
-      try {
-        const orderId = req.params.orderId
+    try {
+      const orderId = req.params.orderId
 
-        const dataOrder = await Order.findOne({ where: { id: orderId }, include: [User, Service] })
+      const dataOrder = await Order.findOne({ where: { id: orderId }, include: [User, Service] })
 
 
       let snap = new midtransClient.Snap({
@@ -16,24 +15,24 @@ class MidtransController {
         serverKey: process.env.MIDTRANS_SERVER_KEY
       });
 
-    let parameter = {
+      let parameter = {
         "transaction_details": {
-            "order_id": dataOrder.orderIdNumber,
-            "gross_amount": dataOrder.Service.price
+          "order_id": dataOrder.orderIdNumber,
+          "gross_amount": dataOrder.Service.price
         },
-        "credit_card":{
-            "secure" : true
+        "credit_card": {
+          "secure": true
         },
         "customer_details": {
-            "first_name": dataOrder.User.username,
-            "email": dataOrder.User.email,
-            "phone": dataOrder.User.phoneNumber
+          "first_name": dataOrder.User.username,
+          "email": dataOrder.User.email,
+          "phone": dataOrder.User.phoneNumber
         }
-    };
-     
-    let transaction = await snap.createTransaction(parameter)
-    
-    res.status(201).json(transaction)
+      };
+
+      let transaction = await snap.createTransaction(parameter)
+
+      res.status(201).json(transaction)
     } catch (error) {
       console.log(error);
     }
