@@ -31,3 +31,13 @@ services:
     command: ["-c", "./wait-for-it.sh -t 30 db:5432 && npx sequelize-cli db:create && npx sequelize db:migrate && npx sequelize-cli db:seed:all && echo 'DONE' && sleep infinity"]
     depends_on:
       - db
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - '127.0.0.1:45035:80'
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@ibnusyadzali.com
+      - PGADMIN_DEFAULT_PASSWORD=4dm1n123
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
